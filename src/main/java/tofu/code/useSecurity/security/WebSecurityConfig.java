@@ -33,9 +33,9 @@ public class WebSecurityConfig {
         return authProvider;
     }
 
-    @Bean
+    @Bean //TODO: add all authenticate/authorize
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) //add all authenticate/authorize
+        http.csrf(csrf -> csrf.disable())
                 .authenticationProvider(authenticationProviderDAO())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) ;

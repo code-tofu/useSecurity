@@ -41,7 +41,7 @@ public class JWTService {
         String jwtToken = authHeader.substring(7);
 
         Claims jwtClaims = Jwts.parserBuilder()
-                        .setSigningKey(getSecretKey()) //add more parser requirements here
+                        .setSigningKey(getSecretKey())  //TODO: add more parser requirements here
                         .build()
                         .parseClaimsJws(jwtToken).getBody();
         if(null == jwtClaims.getSubject()) return Optional.empty();

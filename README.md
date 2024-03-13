@@ -54,3 +54,6 @@ The JWT token is signed with a secret key and returned as a response
 
 -
 Http request intercepted by the ones per request filter which uses JWT service to parse the provided JWT token with the same secret key. If the token is valid the principal from the JWT token is used to get the credentials and authorities from the user details service and add it to the security context 
+
+
+//the JWTAuthorization checks the JWT token is valid (authentication) and then gets the authorities of the token subject from userdetails, and adds the authentication with the authorization to the security context

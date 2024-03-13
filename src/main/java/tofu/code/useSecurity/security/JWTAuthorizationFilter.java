@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Optional;
 
-public class JWTAuthorizationFilter implements OncePerRequestFilter {
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Autowired
     UserDetailsServiceImpl userDetailsSvc;
@@ -22,19 +22,24 @@ public class JWTAuthorizationFilter implements OncePerRequestFilter {
     @Autowired
     JWTService jwtService;
 
-    @Override
+    @Override //TODO: AUTHORITY MAPPING
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         Optional<Claims> jwtClaims = jwtService.validateAndExtractToken(request);
         if (jwtClaims.isEmpty()) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         Claims claims = jwtClaims.get();
         UserDetails userDetails = userDetailsSvc.loadUserByUsername(claims.getSubject());
+        if (null == userDetails) {
+            filterChain.doFilter(request, response);
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null,userDetails.getAuthorities() );
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
+        filterChain.doFilter(request, response);
     }
 }
