@@ -1,4 +1,4 @@
-package tofu.code.useSecurity.security;
+package tofu.code.useSecurity.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

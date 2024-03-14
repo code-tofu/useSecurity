@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import tofu.code.useSecurity.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +20,8 @@ public class WebSecurityConfig {
 
     @Autowired JWTAuthorizationFilter jwtAuthorizationFilter;
 
-    @Autowired UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,9 +35,9 @@ public class WebSecurityConfig {
         return authProvider;
     }
 
-    @Bean //TODO: add all authenticate/authorize
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable()) //TODO: add all authenticate/authorize
                 .authenticationProvider(authenticationProviderDAO())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) ;
