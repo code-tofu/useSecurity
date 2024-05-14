@@ -40,17 +40,18 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        Map<String,Object> roleClaims = new HashMap<>;
+        roleClaims.put("role",user.getAuthorities().get(0).toString());
         
         SignInResponseDTO response = new SignInResponseDTO(jwtService.generateToken(
-                (String) authentication.getPrincipal(),
-                Map<String,Object> authentication.getAuthorities())
-                );
+                user.getUsername(), roleClaims),user.getAuthorities().get(0).toString());
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/signup/therapist") //TODO: FIX principal and authorities. FIX Response
-    public ResponseEntity<SignUpResponseDTO> signupTherapist(@RequestBody SignUpRequestDTO signupRequest) throws JsonProcessingException {
+    @PostMapping("/signup/newUser") //TODO: FIX principal and authorities. FIX Response
+    public ResponseEntity<SignUpResponseDTO> signUpNewUser(@RequestBody SignUpRequestDTO signupRequest) throws JsonProcessingException {
         UserDetails newUser = userDetailsService.createNewUser(signupRequest);
         return ResponseEntity.ok(new SignUpResponseDTO());
     }

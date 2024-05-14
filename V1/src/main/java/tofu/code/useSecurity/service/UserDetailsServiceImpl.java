@@ -14,10 +14,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDetailsRepository userDetailsRepository;
 
     public UserDetails createNewUser(SignUpRequestDTO signupRequest){
+        Set<SimpleGrantedAuthority> authorities = new H
         UserDetails newUser = UserDetailsImpl.builder()
                 .username(signupRequest.getUsername()).password(signupRequest.getPassword())
                 .enabled(true).accountNonLocked(true).accountNonExpired(true).credentialsNonExpired(true)
-                .authorities().build(); //TODO: ADD authorities
+                .authorities().build();
         return userDetailsRepository.save(newUser);
     }
 

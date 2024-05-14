@@ -57,8 +57,8 @@ public class JWTService {
     public String generateToken(String subject, Map<String, Object> customClaims) {
         return Jwts
                 .builder()
-                .setClaims(customClaims)
                 .setSubject(subject)
+                .setClaims(customClaims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTimeMs))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)

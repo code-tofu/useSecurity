@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublicController {
 
     @GetMapping(path="/")
-    public ResponseEntity<String> landing() {
-        return ResponseEntity.ok("Landing Page");
+    public ResponseEntity<String> publicLanding() {
+        return ResponseEntity.ok("PUBLIC API OK");
     }
 
 }

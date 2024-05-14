@@ -2,8 +2,9 @@ package tofu.code.useSecurity.dto;
 
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor //TODO: ADD ROLES
+@NoArgsConstructor 
 public class SignInResponseDTO {
 
     private String token;
+    private String role;
 }

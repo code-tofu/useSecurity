@@ -21,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
 
     //interface fields
     @Column(length = 255)
-    private Set<SimpleGrantedAuthority> authorities;
+    private Set<SimpleGrantedAuthority> authorities; //role based, single string even though Set
 
     @Column(nullable = false, length = 255)
     private String password;

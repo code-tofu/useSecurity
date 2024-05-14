@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import tofu.code.useSecurity.service.UserDetailsServiceImpl;
+import static tofu.code.useSecurity.enums.Authority.*;
 
 @Configuration
 @EnableWebSecurity
@@ -40,17 +41,11 @@ public class WebSecurityConfig {
         http.csrf(csrf -> csrf.disable()) 
                 .authenticationProvider(authenticationProviderDAO())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                // .authorizeHttpRequests(authorize -> authorize
-                //     .requestMatchers( "/api/signin").permitAll()
-                //     .requestMatchers( "/api/visitor/signup").permitAll()
-                //     .requestMatchers( "/test/public").permitAll() //TODO: REMOVE ME
-                //     .requestMatchers( "/test/signup").permitAll() //TODO: REMOVE ME
-                //     .requestMatchers( "/test/user").authenticated() //TODO: REMOVE ME
-                //     .requestMatchers("/test/admin").hasAnyRole(String.valueOf(ADMIN)) //TODO: REMOVE ME
-                //     .requestMatchers("/test/visitor").hasAnyRole(String.valueOf(VISITOR)) //TODO: REMOVE ME
-                //     .requestMatchers("/test/staff").hasAnyRole(String.valueOf(STAFF)) //TODO: REMOVE ME
-                //     .requestMatchers( "/").permitAll() //TODO: TO CHANGE TO AUTHENTICATED
-                //     .anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/protected").authenticated()
+                .requestMatchers("/write").hasAnyAuthority(String.valueOf(WRITE_AUTHORITY))
+                .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) ;
 
         return http.build();
