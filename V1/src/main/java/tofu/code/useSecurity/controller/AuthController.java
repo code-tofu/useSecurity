@@ -35,19 +35,23 @@ public class AuthController {
 
     @PostMapping("/signin") //TODO: FIX principal and authorities
     public ResponseEntity<SignInResponseDTO> signin(@RequestBody SignInRequestDTO signinRequest) throws JsonProcessingException {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        
         SignInResponseDTO response = new SignInResponseDTO(jwtService.generateToken(
                 (String) authentication.getPrincipal(),
                 Map<String,Object> authentication.getAuthorities())
                 );
+
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signup/therapist") //TODO: FIX principal and authorities. FIX Response
     public ResponseEntity<SignUpResponseDTO> signupTherapist(@RequestBody SignUpRequestDTO signupRequest) throws JsonProcessingException {
-        UserDetails newUser = userDetailsService.createNewTherapist(signupRequest);
+        UserDetails newUser = userDetailsService.createNewUser(signupRequest);
         return ResponseEntity.ok(new SignUpResponseDTO());
     }
 }

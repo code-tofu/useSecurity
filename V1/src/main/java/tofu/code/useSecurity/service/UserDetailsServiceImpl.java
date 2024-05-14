@@ -13,7 +13,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserDetailsRepository userDetailsRepository;
 
-    public UserDetails createNewTherapist(SignUpRequestDTO signupRequest){
+    public UserDetails createNewUser(SignUpRequestDTO signupRequest){
         UserDetails newUser = UserDetailsImpl.builder()
                 .username(signupRequest.getUsername()).password(signupRequest.getPassword())
                 .enabled(true).accountNonLocked(true).accountNonExpired(true).credentialsNonExpired(true)

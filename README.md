@@ -1,3 +1,6 @@
+# Clarify
+Roles vs Authorities
+
 # useSecurity
 User Endpoints
 - [ ] CreateAccount
