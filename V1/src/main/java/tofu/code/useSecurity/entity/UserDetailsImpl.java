@@ -4,24 +4,20 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "user_details")
 public class UserDetailsImpl implements UserDetails {
 
     //interface fields
     @Column(length = 255)
-    private Set<SimpleGrantedAuthority> authorities; //role based, single string even though Set
+    private String authorities;
 
     @Column(nullable = false, length = 255)
     private String password;
@@ -36,7 +32,13 @@ public class UserDetailsImpl implements UserDetails {
 
     //customFields
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
+    //V1 authorities implementation: Role Based Single String
+    @Override
+    public List<SimpleGrantedAuthority> getAuthorities(){
+        return List.of(new SimpleGrantedAuthority(this.authorities));
+    }
 
 }
