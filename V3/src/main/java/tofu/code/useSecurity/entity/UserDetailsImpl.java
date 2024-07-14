@@ -50,25 +50,25 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return switch (this.role) {
             case ADMIN -> List.of(
-                new SimpleGrantedAuthority(String.valueOf(DELETE_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(UPDATE_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(WRITE_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
+                    new SimpleGrantedAuthority(String.valueOf(DELETE_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(UPDATE_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(WRITE_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
             );
             case CREATOR -> List.of(
-                new SimpleGrantedAuthority(String.valueOf(UPDATE_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(WRITE_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
+                    new SimpleGrantedAuthority(String.valueOf(UPDATE_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(WRITE_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
             );
             case VIEWER -> List.of(
-                new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
-                new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
+                    new SimpleGrantedAuthority(String.valueOf(READ_AUTHORITY)),
+                    new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY))
             );
             default -> List.of(new SimpleGrantedAuthority(String.valueOf(PROTECTED_AUTHORITY)));
         };
 
-
+    }
 
 }
