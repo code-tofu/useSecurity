@@ -3,6 +3,7 @@ package tofu.code.useSecurity.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tofu.code.useSecurity.exception.CustomControllerException;
 
@@ -24,10 +25,5 @@ public class ProtectedController {
         return ResponseEntity.ok("DELETE_AUTHORITY API OK");
     }
 
-    @GetMapping(path="/except")
-    public ResponseEntity<String> triggerException() throws Exception {
-        throw new CustomControllerException("EXCEPTION THROWN");
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("EXCEPTION NOT THROWN");
-    }
 
 }

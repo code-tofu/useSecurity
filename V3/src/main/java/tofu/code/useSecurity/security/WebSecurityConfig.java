@@ -49,12 +49,23 @@ public class WebSecurityConfig {
                 .authenticationProvider(authenticationProviderDAO())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
+                    //public
                     .requestMatchers("/").permitAll()
-                    .requestMatchers("/signup/newUser/**").permitAll()
+                    .requestMatchers("/except").permitAll()
                     .requestMatchers("/signin").permitAll()
-                    .requestMatchers("/protected").authenticated()
+                    //authorities implmentation
+                    .requestMatchers("/v1/signup/newUser/**").permitAll()
+                    .requestMatchers("/v1/signin").permitAll()
+                    //role implementation
+                    .requestMatchers("/v2/signup/newUser/**").permitAll()
+                    //protected
+                    .requestMatchers("/protected").hasAnyAuthority(String.valueOf(PROTECTED_AUTHORITY))
                     .requestMatchers("/write").hasAnyAuthority(String.valueOf(WRITE_AUTHORITY))
                     .requestMatchers("/delete").hasAnyAuthority(String.valueOf(DELETE_AUTHORITY))
+
+
+//                    .requestMatchers("/signup/newUser/**").permitAll()
+
                     .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))

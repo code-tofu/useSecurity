@@ -8,11 +8,9 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,10 @@ public class JWTService {
     private String secretKey;
 
     @Value("${jwt.expiration.ms:86400000}")
-    private int expireTimeMs;
+    private long tokenExpireTimeMs;
+
+    @Value("${jwt.refresh-expiration.ms:604800000}")
+    private long refreshExpireTimeMs;
 
     public Claims validateAndExtractToken(HttpServletRequest request){
         try {
@@ -77,21 +78,29 @@ public class JWTService {
     public String generateToken(UserDetailsImpl user) {
         log.info("Generating Token for UserId:{}",user.getUserId());
         Claims claims = new DefaultClaims();
-        claims.setSubject(user.getUsername());
         claims.putIfAbsent("role",user.getRole());
-//        String authorities = user.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
-//        claims.putIfAbsent("authorities",authorities);
+        return buildToken(user,claims, tokenExpireTimeMs);
+    }
+
+    public String generateRefreshToken(UserDetailsImpl user) {
+        log.info("Generating Token for UserId:{}",user.getUserId());
+        Claims claims = new DefaultClaims();
+        return buildToken(user, claims, refreshExpireTimeMs);
+    }
+
+    public String buildToken(UserDetailsImpl user, Claims claims, Long expiration){
+
         return Jwts
                 .builder()
                 .setClaims(claims) //overrides setSubject, since setSubject is a convenience method
+                .setSubject(Long.toString(user.getUserId()))
                 .setIssuer(ISSUER_NAME)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expireTimeMs)) //slightly off?
+                .setExpiration(new Date(System.currentTimeMillis() + expiration)) //slightly off?
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
 
     //Alternative Bearer Extract Method

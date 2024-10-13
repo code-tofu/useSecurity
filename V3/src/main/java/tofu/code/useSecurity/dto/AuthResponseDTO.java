@@ -9,7 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SignInResponseDTO {
-    private String token;
+public class AuthResponseDTO {
+    private String accessToken;
+    private String refreshToken;
     private String role;
 }

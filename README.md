@@ -1,11 +1,17 @@
 # useSecurity
-## TODO
-Global Exception Handler
-Refresh Token
 
 ## Versions
 ### V1
 
+### V2
+
+### V3
+
+- implement refresh token
+
+## TODO
+Global Exception Handler
+Refresh Token
 
 ## QUESTIONS
 - implement unit testing with test.json rsources
@@ -15,3 +21,4 @@ Refresh Token
 - authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request))?
 - Is Password encoder is always a new instance? What if we use secureRandom
 - pokemart/dubstep not used? public Boolean validateToken(String jwtStr, UserDetails userDetails)
+- implement authenticationfilter
